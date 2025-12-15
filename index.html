@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roofing Cost Estimate</title>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+
+<body>
+
+    <!-- 3D Background Container -->
+    <div id="canvas-container"></div>
+
+    <!-- Hero Section -->
+    <header class="hero" id="hero">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <h1 class="hero-title">
+                <span class="line">Roofing Cost Estimate</span>
+            </h1>
+            <p class="subtitle">Quick Questions. Quick Quote.</p>
+
+        </div>
+    </header>
+
+    <!-- Calculator Section -->
+    <section id="calculator" class="calculator-section">
+        <div class="container">
+            <div class="calculator-card glass-panel">
+
+                <!-- Progress Bar -->
+                <div class="progress-container">
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="progressBar"></div>
+                    </div>
+                    <div class="steps-indicator">
+                        <span class="step-dot active">1</span>
+                        <span class="step-dot">2</span>
+                        <span class="step-dot">3</span>
+                        <span class="step-dot">4</span>
+                    </div>
+                </div>
+
+                <form id="roofingForm" onsubmit="return false;">
+
+                    <!-- STEP 1: ABOUT PROPERTY -->
+                    <div class="wizard-step active" data-step="1">
+                        <div class="step-header">
+                            <h2>About the Property</h2>
+                            <p>Let's get started with some basic details.</p>
+                        </div>
+
+                        <!-- Zip Code -->
+                        <div class="form-group centered-input">
+                            <label for="zipcode">Zip Code</label>
+                            <input type="text" id="zipcode" name="zipcode" placeholder="e.g. 90210" maxlength="5">
+                        </div>
+
+                        <!-- Relation to Property -->
+                        <div class="form-group">
+                            <label>How are you related to the property?</label>
+                            <div class="shape-grid">
+                                <div class="shape-option" data-value="owner" data-group="relation">
+                                    <svg viewBox="0 0 24 24" class="roof-icon" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                        <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                                    </svg>
+                                    <span>Sole Owner</span>
+                                </div>
+                                <div class="shape-option" data-value="co-owner" data-group="relation">
+                                    <svg viewBox="0 0 24 24" class="roof-icon" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                    </svg>
+                                    <span>Co-owner</span>
+                                </div>
+                                <div class="shape-option" data-value="decision-maker" data-group="relation">
+                                    <svg viewBox="0 0 24 24" class="roof-icon" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                    <span>Decision Maker</span>
+                                </div>
+                                <div class="shape-option" data-value="other" data-group="relation">
+                                    <svg viewBox="0 0 24 24" class="roof-icon" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                                    </svg>
+                                    <span>Other</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step-nav">
+                            <div></div>
+                            <button class="btn btn-primary next-btn">Next Step &rarr;</button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2: ROOF DETAILS -->
+                    <div class="wizard-step" data-step="2">
+                        <div class="step-header">
+                            <h2>Roof Details</h2>
+                            <p>Tell us more about the roof structure.</p>
+                        </div>
+
+                        <!-- Roof Type -->
+                        <div class="form-group">
+                            <label>Roof Type</label>
+                            <div class="shape-grid">
+                                <div class="shape-option" data-value="asphalt" data-group="type">
+                                    <svg viewBox="0 0 100 60" class="roof-icon" fill="none" stroke="currentColor"
+                                        stroke-width="3">
+                                        <path d="M10,50 L50,10 L90,50" />
+                                        <rect x="20" y="50" width="60" height="5" opacity="0.2" />
+                                    </svg>
+                                    <span>Asphalt Shingles</span>
+                                </div>
+                                <div class="shape-option" data-value="metal" data-group="type">
+                                    <svg viewBox="0 0 100 60" class="roof-icon" fill="none" stroke="currentColor"
+                                        stroke-width="3">
+                                        <line x1="10" y1="50" x2="50" y2="10" />
+                                        <line x1="90" y1="50" x2="50" y2="10" />
+                                        <line x1="30" y1="30" x2="30" y2="50" />
+                                        <line x1="50" y1="10" x2="50" y2="50" />
+                                        <line x1="70" y1="30" x2="70" y2="50" />
+                                    </svg>
+                                    <span>Metal</span>
+                                </div>
+                                <div class="shape-option" data-value="tile" data-group="type">
+                                    <svg viewBox="0 0 100 60" class="roof-icon" fill="none" stroke="currentColor"
+                                        stroke-width="3">
+                                        <path d="M10,50 Q20,40 30,50 T50,50 T70,50 T90,50" />
+                                        <path d="M30,30 Q40,20 50,30 T70,30" />
+                                    </svg>
+                                    <span>Tile</span>
+                                </div>
+                                <div class="shape-option" data-value="flat" data-group="type">
+                                    <svg viewBox="0 0 100 60" class="roof-icon" fill="none" stroke="currentColor"
+                                        stroke-width="3">
+                                        <rect x="10" y="20" width="80" height="15" />
+                                    </svg>
+                                    <span>Flat / TPO</span>
+                                </div>
+                                <div class="shape-option" data-value="unsure" data-group="type">
+                                    <svg viewBox="0 0 24 24" class="roof-icon" fill="none" stroke="currentColor"
+                                        stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                    </svg>
+                                    <span>Not Sure</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Approximate Age -->
+                        <div class="form-group">
+                            <label>Approximate Age of Roof</label>
+                            <div class="shape-grid">
+                                <div class="shape-option" data-value="0-5" data-group="age">
+                                    <span>0–5 years</span>
+                                </div>
+                                <div class="shape-option" data-value="6-10" data-group="age">
+                                    <span>6–10 years</span>
+                                </div>
+                                <div class="shape-option" data-value="11-20" data-group="age">
+                                    <span>11–20 years</span>
+                                </div>
+                                <div class="shape-option" data-value="20+" data-group="age">
+                                    <span>20+ years</span>
+                                </div>
+                                <div class="shape-option" data-value="unsure" data-group="age">
+                                    <span>Not sure</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stories -->
+                        <div class="form-group">
+                            <label>Number of Stories</label>
+                            <div class="shape-grid">
+                                <div class="shape-option" data-value="1" data-group="stories">
+                                    <span>1</span>
+                                </div>
+                                <div class="shape-option" data-value="2" data-group="stories">
+                                    <span>2</span>
+                                </div>
+                                <div class="shape-option" data-value="3+" data-group="stories">
+                                    <span>3+</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Roof Size -->
+                        <div class="form-group">
+                            <label>Approximate Roof Size</label>
+                            <div class="shape-grid">
+                                <div class="shape-option" data-value="small" data-group="size">
+                                    <span>Small</span>
+                                    <span
+                                        style="display:block; font-size: 0.8em; color: var(--text-muted);">(Garage/Small
+                                        Home)</span>
+                                </div>
+                                <div class="shape-option" data-value="medium" data-group="size">
+                                    <span>Medium</span>
+                                    <span style="display:block; font-size: 0.8em; color: var(--text-muted);">(Average
+                                        Home)</span>
+                                </div>
+                                <div class="shape-option" data-value="large" data-group="size">
+                                    <span>Large</span>
+                                    <span style="display:block; font-size: 0.8em; color: var(--text-muted);">(Large
+                                        Estate)</span>
+                                </div>
+                                <div class="shape-option" data-value="unsure" data-group="size">
+                                    <span>Not Sure</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step-nav">
+                            <button class="btn btn-outline prev-btn">&larr; Previous Step</button>
+                            <button class="btn btn-primary next-btn">Next Step &rarr;</button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 3: ROOF PROBLEMS -->
+                    <div class="wizard-step" data-step="3">
+                        <div class="step-header">
+                            <h2>Roof Problems</h2>
+                            <p>What specific issues are you facing?</p>
+                        </div>
+
+                        <!-- Situation -->
+                        <div class="form-group">
+                            <label>Which best describes your situation?</label>
+                            <div class="shape-grid">
+                                <div class="shape-option" data-value="leak" data-group="situation">
+                                    <span>Active leak right now</span>
+                                </div>
+                                <div class="shape-option" data-value="damage" data-group="situation">
+                                    <span>Visible damage</span>
+                                </div>
+                                <div class="shape-option" data-value="old" data-group="situation">
+                                    <span>Roof is old/needs replacement</span>
+                                </div>
+                                <div class="shape-option" data-value="storm" data-group="situation">
+                                    <span>Storm or hail damage</span>
+                                </div>
+                                <div class="shape-option" data-value="opinion" data-group="situation">
+                                    <span>Just want professional opinion</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Issue Duration -->
+                        <div class="form-group">
+                            <label>How long have you been aware of this issue?</label>
+                            <div class="shape-grid">
+                                <div class="shape-option" data-value="noticed" data-group="duration">
+                                    <span>Just noticed</span>
+                                </div>
+                                <div class="shape-option" data-value="1mo" data-group="duration">
+                                    <span>Less than 1 month</span>
+                                </div>
+                                <div class="shape-option" data-value="6mo" data-group="duration">
+                                    <span>1–6 months</span>
+                                </div>
+                                <div class="shape-option" data-value="6mo+" data-group="duration">
+                                    <span>More than 6 months</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="step-nav">
+                            <button class="btn btn-outline prev-btn">&larr; Previous Step</button>
+                            <button class="btn btn-primary next-btn">Get Estimate &rarr;</button>
+                        </div>
+                    </div>
+
+                    <!-- STEP 4: RESULTS -->
+                    <div class="wizard-step" data-step="4">
+                        <div class="results-container">
+                            <div class="results-header">
+                                <h3>Get Your Estimate</h3>
+                                <p class="confetti-text">Estimate Ready!</p>
+                            </div>
+
+                            <p class="mb-8 text-muted">Select a method below to receive your personalized estimate.</p>
+
+                            <div class="action-buttons vertical-stack">
+                                <a href="#" id="waBtn" class="btn btn-whatsapp full-width" target="_blank">
+                                    <span class="icon">💬</span> Get Estimate via WhatsApp
+                                </a>
+                                <a href="#" id="emailBtn" class="btn btn-email full-width">
+                                    <span class="icon">✉️</span> Get Estimate via Email
+                                </a>
+                                <a href="#" id="smsBtn" class="btn btn-sms full-width">
+                                    <span class="icon">📱</span> Get Estimate via SMS
+                                </a>
+                            </div>
+
+                            <button class="btn-text prev-btn mt-4">Edit Details</button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
