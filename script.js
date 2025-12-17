@@ -42,7 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function loadRooferConfig() {
-    fetch('roofer_config.json')
+    const urlParams = new URLSearchParams(window.location.search);
+    const configFile = urlParams.get('config') || 'roofer_config.json'; // Default to generic production file
+    fetch(configFile)
         .then(response => {
             if (!response.ok) {
                 throw new Error("Failed to load config");
