@@ -7,8 +7,12 @@
 
 // --- CONFIGURATION ---
 
-
-const PHONE_NUMBER = "9987412299";
+let rooferConfig = {
+    name: "Roofer",
+    phoneNumber: "9987412299", // Default fallback
+    whatsappNumber: "9987412299", // Default fallback
+    email: ""
+};
 
 // State Object
 let state = {
@@ -27,15 +31,32 @@ let state = {
 const progressBar = document.getElementById('progressBar');
 const dots = document.querySelectorAll('.step-dot');
 const steps = document.querySelectorAll('.wizard-step');
-const floatingCTA = document.getElementById('floatingCTA'); // Kept ref just in case, though removed from HTML
 
 // --- INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', () => {
+    loadRooferConfig();
     initThreeJS();
     initGSAP();
     initEventListeners();
     updateUI();
 });
+
+function loadRooferConfig() {
+    fetch('roofer_config.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Failed to load config");
+            }
+            return response.json();
+        })
+        .then(config => {
+            rooferConfig = { ...rooferConfig, ...config };
+            console.log("Roofer config loaded:", rooferConfig);
+        })
+        .catch(error => {
+            console.error("Error loading roofer config:", error);
+        });
+}
 
 // --- 3D BACKGROUND (Three.js) ---
 function initThreeJS() {
@@ -320,7 +341,7 @@ function calculateFinal() {
 }
 
 function prepareContactLinks() {
-    const message = `Hello, I'd like to reach out regarding my roof.
+    const message = `Hello ${rooferConfig.name}, I'd like to reach out regarding my roof.
     
 Property Details:
 - Zip: ${state.zipcode}
@@ -339,7 +360,7 @@ Please contact me to discuss next steps.`;
     const emailBtn = document.getElementById('emailBtn');
     const smsBtn = document.getElementById('smsBtn');
 
-    if (waBtn) waBtn.href = `https://wa.me/${PHONE_NUMBER}?text=${encoded}`;
-    if (smsBtn) smsBtn.href = `sms:${PHONE_NUMBER}?&body=${encoded}`;
-    if (emailBtn) emailBtn.href = `mailto:?subject=Roofing Inquiry&body=${encoded}`;
+    if (waBtn) waBtn.href = `https://wa.me/${rooferConfig.whatsappNumber}?text=${encoded}`;
+    if (smsBtn) smsBtn.href = `sms:${rooferConfig.phoneNumber}?&body=${encoded}`;
+    if (emailBtn) emailBtn.href = `mailto:${rooferConfig.email}?subject=Roofing Inquiry&body=${encoded}`;
 }
