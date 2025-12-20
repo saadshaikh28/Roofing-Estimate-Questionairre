@@ -403,13 +403,13 @@ function calculateFinal() {
 function prepareContactLinks() {
     const message = `Hello ${rooferConfig.name}, I'd like to reach out regarding my roof.
     
-Property Details:
-- Zip: ${state.zipcode}
-- Relation: ${state.relation}
-- Type: ${state.type}
-- Age: ${state.age}
-- Stories: ${state.stories}
-- Size: ${state.size}
+Details:
+- Zip Code: ${state.zipcode}
+- Property: ${state.relation}
+- Roof Type: ${state.type}
+- RoofAge: ${state.age}
+- Number of Stories: ${state.stories}
+- Roof Size: ${state.size}
 - Problem: ${state.situation}
 - Duration: ${state.duration}
 
