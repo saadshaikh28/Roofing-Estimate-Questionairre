@@ -611,12 +611,40 @@ input[type="range"] {
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
-    height: 10px;
-    border-radius: 5px;
+    height: 12px;
+    border-radius: 6px;
     background: #E2E8F0;
     outline: none;
     margin: 1.5rem 0;
     transition: background 0.2s;
+    cursor: pointer;
+}
+
+/* Glitter Animation */
+@keyframes sparkleMove {
+    from {
+        background-position: 0 0, 0 0;
+    }
+
+    to {
+        background-position: 100px 0, 0 0;
+    }
+}
+
+input[type="range"].glitter-slider {
+    --p: var(--range-percent, 0%);
+    background:
+        /* Layer 1: Moving Sparkles (Radial Gradients) */
+        radial-gradient(circle at 2px 2px, white 1px, transparent 1px) repeat,
+        radial-gradient(circle at 10px 10px, rgba(255, 255, 255, 0.8) 1.5px, transparent 1.5px) repeat,
+        /* Layer 2: Fill Color with Gold Hue */
+        linear-gradient(to right,
+            #FDE047 0%,
+            var(--accent-color) var(--p),
+            #E2E8F0 var(--p),
+            #E2E8F0 100%);
+    background-size: 20px 20px, 35px 35px, 100% 100%;
+    animation: sparkleMove 4s linear infinite;
 }
 
 input[type="range"]::-webkit-slider-thumb {
@@ -627,9 +655,11 @@ input[type="range"]::-webkit-slider-thumb {
     border-radius: 50%;
     background: var(--accent-color);
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s, background 0.2s;
     border: 3px solid white;
+    position: relative;
+    z-index: 10;
 }
 
 input[type="range"]::-webkit-slider-thumb:hover {

@@ -183,6 +183,13 @@ function initEventListeners() {
     }
 
     // --- SLIDERS ---
+    function updateSliderFill(slider) {
+        const min = slider.min || 0;
+        const max = slider.max || 100;
+        const val = slider.value;
+        const percent = (val - min) * 100 / (max - min);
+        slider.style.setProperty('--range-percent', percent + '%');
+    }
 
     // Age Slider
     const ageSlider = document.getElementById('ageSlider');
@@ -190,6 +197,8 @@ function initEventListeners() {
 
     if (ageSlider) {
         state.age = "Less than 1 Year"; // Init
+        ageSlider.classList.add('glitter-slider');
+        updateSliderFill(ageSlider);
         ageSlider.addEventListener('input', (e) => {
             const val = parseInt(e.target.value);
             let label = "";
@@ -199,6 +208,7 @@ function initEventListeners() {
 
             state.age = label;
             ageDisplay.innerText = label;
+            updateSliderFill(e.target);
         });
     }
 
@@ -208,11 +218,14 @@ function initEventListeners() {
 
     if (storiesSlider) {
         state.stories = "1 Story"; // Init
+        storiesSlider.classList.add('glitter-slider');
+        updateSliderFill(storiesSlider);
         storiesSlider.addEventListener('input', (e) => {
             const val = e.target.value;
             const label = val === '3' ? "3+ Stories" : `${val} Story${val > 1 ? 'ies' : ''}`; // Corrected pluralization
             state.stories = label;
             storiesDisplay.innerText = label;
+            updateSliderFill(e.target);
         });
     }
 
@@ -223,11 +236,14 @@ function initEventListeners() {
 
     if (durationSlider) {
         state.duration = durationLabels[0]; // Init
+        durationSlider.classList.add('glitter-slider');
+        updateSliderFill(durationSlider);
         durationSlider.addEventListener('input', (e) => {
             const val = parseInt(e.target.value);
             const label = durationLabels[val];
             state.duration = label;
             durationDisplay.innerText = label;
+            updateSliderFill(e.target);
         });
     }
 
