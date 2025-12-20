@@ -189,6 +189,9 @@ function initEventListeners() {
         const val = slider.value;
         const percent = (val - min) * 100 / (max - min);
         slider.style.setProperty('--range-percent', percent + '%');
+
+        // Move glitter position based on value (10px per unit)
+        slider.style.setProperty('--glitter-pos', (val * 10) + 'px');
     }
 
     // Age Slider

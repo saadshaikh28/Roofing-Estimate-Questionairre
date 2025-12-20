@@ -633,6 +633,7 @@ input[type="range"] {
 
 input[type="range"].glitter-slider {
     --p: var(--range-percent, 0%);
+    --gp: var(--glitter-pos, 0px);
     background:
         /* Layer 1: Moving Sparkles (Radial Gradients) */
         radial-gradient(circle at 2px 2px, white 1px, transparent 1px) repeat,
@@ -644,7 +645,8 @@ input[type="range"].glitter-slider {
             #E2E8F0 var(--p),
             #E2E8F0 100%);
     background-size: 20px 20px, 35px 35px, 100% 100%;
-    animation: sparkleMove 4s linear infinite;
+    /* Movement tied to --glitter-pos variable */
+    background-position: var(--gp) 0, calc(var(--gp) * -0.5) 0, 0 0;
 }
 
 input[type="range"]::-webkit-slider-thumb {
