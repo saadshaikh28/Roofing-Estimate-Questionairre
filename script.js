@@ -42,21 +42,46 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function loadRooferConfig() {
+    const hostname = window.location.hostname;
     const urlParams = new URLSearchParams(window.location.search);
-    const configFile = urlParams.get('config') || 'roofer_config.json'; // Default to generic production file
+
+    // 1. Check for manual override in URL: ?config=name
+    let clientName = urlParams.get('config');
+
+    // 2. If no manual override, detect from subdomain (e.g., mark.pages.dev -> mark)
+    if (!clientName) {
+        const parts = hostname.split('.');
+        if (parts.length > 2) {
+            clientName = parts[0];
+        }
+    }
+
+    // Default fallback if on localhost or top-level domain
+    if (!clientName || clientName === 'localhost' || clientName === '127') {
+        clientName = 'roofer_config';
+    }
+
+    const configFile = `configs/${clientName}.json`;
+    console.log(`Attempting to load config: ${configFile}`);
+
     fetch(configFile)
         .then(response => {
-            if (!response.ok) {
-                throw new Error("Failed to load config");
-            }
+            if (!response.ok) throw new Error("Config not found");
             return response.json();
         })
         .then(config => {
             rooferConfig = { ...rooferConfig, ...config };
-            console.log("Roofer config loaded:", rooferConfig);
+            console.log("Roofer config loaded successfully:", rooferConfig);
         })
         .catch(error => {
-            console.error("Error loading roofer config:", error);
+            console.error(`Error loading ${configFile}, falling back to default:`, error);
+            // Fallback to the main roofer_config.json if the specific one fails
+            fetch('configs/roofer_config.json')
+                .then(res => res.json())
+                .then(data => {
+                    rooferConfig = { ...rooferConfig, ...data };
+                })
+                .catch(err => console.error("Critical: Could not load fallback config", err));
         });
 }
 
