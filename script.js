@@ -48,21 +48,26 @@ function loadRooferConfig() {
     // 1. Check for manual override in URL: ?config=name
     let clientName = urlParams.get('config');
 
-    // 2. If no manual override, detect from subdomain (e.g., mark.pages.dev -> mark)
-    if (!clientName) {
+    // 2. Local Environment Check (localhost, 127.0.0.1, or no dots in hostname)
+    const isLocal = hostname === 'localhost' || hostname === '127.0.0.1' || !hostname.includes('.');
+
+    // 3. Subdomain Detection (only if not local and no manual override)
+    if (!clientName && !isLocal) {
         const parts = hostname.split('.');
         if (parts.length > 2) {
             clientName = parts[0];
         }
     }
 
-    // Default fallback if on localhost or top-level domain
-    if (!clientName || clientName === 'localhost' || clientName === '127') {
-        clientName = 'roofer_config';
+    // Default to 'roofer_config' for local development or if no client detected
+    if (!clientName || isLocal) {
+        clientName = clientName || 'roofer_config';
     }
 
     const configFile = `configs/${clientName}.json`;
-    console.log(`Attempting to load config: ${configFile}`);
+    console.log(`[Config Debug] Hostname: ${hostname}`);
+    console.log(`[Config Debug] Client Name: ${clientName}`);
+    console.log(`[Config Debug] Attempting to load: ${configFile}`);
 
     fetch(configFile)
         .then(response => {
