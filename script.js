@@ -362,7 +362,33 @@ Please contact me to discuss next steps.`;
     const emailBtn = document.getElementById('emailBtn');
     const smsBtn = document.getElementById('smsBtn');
 
-    if (waBtn) waBtn.href = `https://wa.me/${rooferConfig.whatsappNumber}?text=${encoded}`;
-    if (smsBtn) smsBtn.href = `sms:${rooferConfig.phoneNumber}?&body=${encoded}`;
-    if (emailBtn) emailBtn.href = `mailto:${rooferConfig.email}?subject=Roofing Inquiry&body=${encoded}`;
+    // 1. WhatsApp Button
+    if (waBtn) {
+        if (rooferConfig.whatsappNumber) {
+            waBtn.href = `https://wa.me/${rooferConfig.whatsappNumber}?text=${encoded}`;
+            waBtn.style.display = 'flex';
+        } else {
+            waBtn.style.display = 'none';
+        }
+    }
+
+    // 2. SMS Button
+    if (smsBtn) {
+        if (rooferConfig.phoneNumber) {
+            smsBtn.href = `sms:${rooferConfig.phoneNumber}?&body=${encoded}`;
+            smsBtn.style.display = 'flex';
+        } else {
+            smsBtn.style.display = 'none';
+        }
+    }
+
+    // 3. Email Button
+    if (emailBtn) {
+        if (rooferConfig.email) {
+            emailBtn.href = `mailto:${rooferConfig.email}?subject=Roofing Inquiry&body=${encoded}`;
+            emailBtn.style.display = 'flex';
+        } else {
+            emailBtn.style.display = 'none';
+        }
+    }
 }
