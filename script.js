@@ -85,13 +85,16 @@ function loadRooferConfig() {
             console.log("%c[Config Success] Roofer config merged:", "color: #10b981; font-weight: bold;", rooferConfig);
 
             // Personalization
-            const displayName = rooferConfig.companyName || rooferConfig.name || "Roofer";
-            document.title = `${displayName} - Roofing Estimate`;
-
-            const titleLines = document.querySelectorAll('.hero-title .line');
-            if (titleLines.length >= 2) {
-                titleLines[0].innerText = displayName;
-                titleLines[1].innerText = "Estimate Calculator";
+            const heroTitle = document.querySelector('.hero-title');
+            if (rooferConfig.companyName) {
+                document.title = `${rooferConfig.companyName} - Roofing Estimate`;
+                heroTitle.innerHTML = `
+                    <span class="line">Roofing Cost Estimate</span>
+                    <span class="line brand-line">by <span class="company-brand">${rooferConfig.companyName}</span></span>
+                `;
+            } else {
+                document.title = "Roofing Cost Estimate";
+                heroTitle.innerHTML = `<span class="line">Roofing Cost Estimate</span>`;
             }
         })
         .catch(error => {

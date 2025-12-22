@@ -118,6 +118,46 @@ h3 {
 
 .hero-title .line {
     display: block;
+    line-height: 1.2;
+}
+
+.brand-line {
+    font-size: 0.5em;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+    font-weight: 500;
+}
+
+.company-brand {
+    font-weight: 900;
+    color: var(--accent-color);
+    position: relative;
+    display: inline-block;
+    padding: 0 5px;
+    background: linear-gradient(135deg,
+            var(--accent-color) 0%,
+            #fff 30%,
+            var(--accent-color) 50%,
+            #fff 70%,
+            var(--accent-color) 100%);
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shine-flow 4s linear infinite;
+    filter: drop-shadow(0 0 8px var(--accent-glow));
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+@keyframes shine-flow {
+    0% {
+        background-position: -200% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
 }
 
 .hero .subtitle {
@@ -137,7 +177,7 @@ h3 {
 
 @media (min-width: 768px) {
     .hero-title {
-        font-size: 4.5rem;
+        font-size: 4rem;
     }
 
     .hero .subtitle {
