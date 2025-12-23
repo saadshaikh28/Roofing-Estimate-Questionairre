@@ -56,11 +56,37 @@ export async function onRequest(context) {
             .on('meta[name="description"]', {
                 element(el) { el.setAttribute("content", description); },
             })
+            // Open Graph
             .on('meta[property="og:title"]', {
                 element(el) { el.setAttribute("content", pageTitle); },
             })
+            .on('meta[property="og:description"]', {
+                element(el) { el.setAttribute("content", description); },
+            })
             .on('meta[property="og:site_name"]', {
                 element(el) { el.setAttribute("content", companyName); },
+            })
+            .on('meta[property="og:image"]', {
+                element(el) { el.setAttribute("content", screenshotUrl); },
+            })
+            .on('meta[property="og:url"]', {
+                element(el) { el.setAttribute("content", url.origin); },
+            })
+            .on('meta[property="og:type"]', {
+                element(el) { el.setAttribute("content", "website"); },
+            })
+            // Twitter
+            .on('meta[property="twitter:title"]', {
+                element(el) { el.setAttribute("content", pageTitle); },
+            })
+            .on('meta[property="twitter:description"]', {
+                element(el) { el.setAttribute("content", description); },
+            })
+            .on('meta[property="twitter:image"]', {
+                element(el) { el.setAttribute("content", screenshotUrl); },
+            })
+            .on('meta[property="twitter:card"]', {
+                element(el) { el.setAttribute("content", "summary_large_image"); },
             })
             // Direct injection into the H1 so the screenshot service sees it immediately
             .on('.hero-title', {
@@ -83,15 +109,6 @@ export async function onRequest(context) {
             </style>
           `, { html: true });
                 }
-            })
-            .on('meta[property="og:image"]', {
-                element(el) { el.setAttribute("content", screenshotUrl); },
-            })
-            .on('meta[property="twitter:image"]', {
-                element(el) { el.setAttribute("content", screenshotUrl); },
-            })
-            .on('meta[property="og:url"]', {
-                element(el) { el.setAttribute("content", url.origin); },
             })
             .transform(response);
 
