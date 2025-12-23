@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initGSAP();
     initEventListeners();
     initMap();
-    updateUI();
+    updateUI(false);
 });
 
 function loadRooferConfig() {
@@ -399,7 +399,7 @@ function nextStep() {
     if (validateStep(state.step)) {
         if (state.step < 4) {
             state.step++;
-            updateUI();
+            updateUI(true);
         }
         if (state.step === 4) {
             calculateFinal();
@@ -416,7 +416,7 @@ function nextStep() {
 function prevStep() {
     if (state.step > 1) {
         state.step--;
-        updateUI();
+        updateUI(true);
     }
 }
 
@@ -465,7 +465,15 @@ function highlightMissingFields(step) {
 }
 
 
-function updateUI() {
+function updateUI(shouldScroll = false) {
+    // Optional scroll to top of calculator for mobile users
+    if (shouldScroll) {
+        const calculator = document.getElementById('calculator');
+        if (calculator) {
+            calculator.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    }
+
     // 1. Update Progress Bar
     const progress = ((state.step - 1) / 3) * 100; // 4 steps total (3 questions + 1 result), so fraction of 3 intervals
     if (progressBar) progressBar.style.width = `${progress}%`;
